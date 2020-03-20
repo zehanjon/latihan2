@@ -1,0 +1,479 @@
+#latihan modul 2 ADT
+==================/* File : jam.h
+deklarasi Type dan prototype type jam */
+
+#ifndef jam_H
+#define jam_H
+
+typedef struct{
+		int HH;
+		int MM;
+		int SS;
+		} jam;
+
+===============/* prototype */
+void ResetJam(jam *J);
+
+/* Mengisi sebuah jam J dengan 00:00:00 */
+void TulisJam(jam J);
+
+/* Menulis sebuah jam */
+int JamToDetik(jam J);
+
+/* Konversi jam ke detik */
+jam DetikToJam(int d);
+
+/* Konversi dari detik menjadi jam */
+
+#endif
+
+====================/* File : jam.cpp */
+/* Body prototype type jam */
+
+#include "jam.h"
+#include <stdio.h>
+
+/* Body prototype */
+void ResetJam(jam *J){
+	/* Mengisi sebuah jam J dengan 00:00:00 */
+	/* KAMUS LOKAL */
+	/* Algoritma */
+	(*J).HH=0;
+	(*J).MM=0;
+	(*J).SS=0;}
+
+void TulisJam(jam J){
+	/* Menulis sebuah jam */
+	/* KAMUS LOKAL */
+	/* Algoritma */
+	printf("Jam : %2d:%2d:%2d \n", J.HH, J.MM, J.SS);}
+
+int JamToDetik(jam J){
+	/* Konversi jam ke detik */
+	/* KAMUS */
+	/* Algoritma */
+	return (J.HH * 3600 + J.MM * 60 + J.SS);}
+
+jam DetikToJam(int d){
+	/* Konversi dari detik ke struktur jam */
+	/* KAMUS LOKAL */
+	jam J;
+	int sisa;
+
+	/* Algoritma */
+	J.HH = d / 3600;
+	sisa = d % 3600;
+	J.MM = sisa / 60;
+	J.SS = sisa % 60;
+	return J;
+}
+
+====================/* File : mjam.cpp */
+/* Memanfaatkan primitif jam */
+
+#include "jam.h"
+#include <stdio.h>
+#include <jam.cpp>
+
+int main(){
+	/* KAMUS */
+	jam J1;
+	jam J2;
+	int dt=1000;
+
+	/* Program */
+	printf("Hello \n");
+	ResetJam(&J1);
+	TulisJam(J1);
+	printf("Konversi jam ke detik : "); scanf("%d", &J1);
+JamToDetik(J1);
+	printf("Konversi jam ke detik : %d \n", JamToDetik(J1));
+	J2=DetikToJam(dt);
+	TulisJam(J1);
+	return 0;
+}
+
+ADT Jam Modifikasi
+
+==================File boolean.h
+/* File: boolean.h */
+/* Definisi type data boolean */
+#ifndef BOOLEAN_H
+#define BOOLEAN_H
+#define boolean unsigned char
+#define true 1
+#define false 0
+#endif
+
+========================File jam.c
+/* File : jam.c */
+/* Body AFT Jam*/
+
+#include "jam.h"
+
+/* Konstruktor Jam */
+Jam MakeJam(int H, int M, int S, int D)
+
+/* Mmebentuk Jam dari H, M, S yang valid */
+{
+	/*Kamus Lokal*/
+	Jam J1;
+	
+	/* Algoritma */
+	Hour(J1) = H;
+	Minute(J1) = M;
+	Second(J1) = S;
+	Day(J1) = D;
+	return J1;
+}
+
+/* Validator Jam */
+
+boolean IsValid(int H, int M, int S, int D)
+/* Mengirim true jika H,M,S dapat membentuk Jam yang valid */
+
+{
+	/* Kamus Lokal */
+	/* Algoritma */
+	return ((H >= 0 && H <= 23) &&
+	(M >= 0 && M <= 59) &&
+	(S >= 0 && S <= 59) && (D >= 1));
+}
+
+/* Baca dan Tulis Jam */
+void BacaJam(Jam *J)
+/* I.S : J tak terdefinisi */
+/* F.S : J terdefinisi dan merupakan jam valid */
+/* Proses : mengulang baca komponen H,M,S sehingga membentuk J yang  Valid */
+
+{
+	/* Kamus Lokal */
+	int H, M, S, D;
+	/* Algoritma */
+	do  {
+		 printf("Masukan Jumlah Hari : "); scanf("%d",&D);
+		 printf("Masukan Jam : "); scanf("%d",&H);
+		 printf("Masukan Menit: "); scanf("%d", &M);
+		 printf("Masukan Detik: "); scanf("%d", &S);
+		} while(!IsValid(H,M,S,D));
+	*J = MakeJam(H,M,S,D);
+}
+
+void TulisHasil(Jam J)
+/* I.S : J sembarang */
+/* F.s : J ditulis ke layar dengan format HH:MM:SS */
+/* Proses : Menulis ke layar */
+{
+	/* Kamus lokal */
+	/* Algoritma */
+	printf("Sisa Bagi Jam : %d, Hasil Bagi Menit : %d, Sisa Bagi Detik : %d ", Hour(J), Minute(J), Second(J));
+}
+
+void TulisJam(Jam J)
+/* I.S : J sembarang */
+/* F.s : J ditulis ke layar dengan format HH:MM:SS */
+/* Proses : Menulis ke layar */
+{
+	/* Kamus lokal */
+	/* Algoritma */
+	printf("%d Hari, %d Jam, %d Menit, %d Detik",Day(J), Hour(J), Minute(J), Second(J));
+}
+
+int JamToDetik(Jam J)
+/* Konversi Jam menjadi detik */
+{
+	/* Kamus Lokal */
+	/* Algoritma */
+	return(3600 *Hour(J) + 60 *Minute(J) + Second(J));
+}
+
+int HariToJam(Jam J)
+/* Konversi Jam menjadi detik */
+{
+	/* Kamus Lokal */
+	/* Algoritma */
+	return(Day (J)*24 + Hour (J)); 
+}
+
+	
+Jam DetikToJam(int N)
+/* Konversi detik ke Jam */
+{
+	/* Kamus lokal */
+	int sisa;
+	Jam JOut;
+	/* Algoritma */
+	Hour(JOut) = N % 3600; // 7384 : 3600 Hasil 2 sisanya 184
+	sisa = N % 3600;       
+	Minute(JOut) = sisa / 60; // 184 : 60 Hasil 3 sisanya 4
+	Second(JOut) = sisa % 60; 
+	return JOut;
+}
+
+====================File jam.h
+/* File : jam.h */
+
+/* spesifikasi ADT Jam */
+#ifndef jam_H
+#define jam_H
+#include "boolean.h"
+#include "stdio.h"
+
+/* Notasi Akses */
+#define Hour(J) (J).HH
+#define Minute(J) (J).MM
+#define Second(J) (J).SS
+#define Day(J) (J).DD
+typedef struct
+{
+	int HH; /* 0..23 */
+	int MM; /* 0..59 */
+	int SS; /* 0..59 */
+	int DD;
+} Jam; 
+
+Jam MakeJam(int H, int M, int S, int D);
+
+boolean IsValid(int H, int M, int S, int D );
+
+/*-----------Baca & Tulis Jam------------*/
+void BacaJam(Jam *J);
+/* I.S. : J tak terdefinisi*/
+/* F.S : J terdefinisi dan merupakan jam valid */
+/* Proses : mengulang baca komponen H,M,S sehingga memberi nilai yang valid */
+
+void TulisHasil(Jam J); 
+
+void TulisJam(Jam J);
+/* I.S. : J sembarang*/
+/* F.S : J ditulis ke layar dengan format HH:MM:SS */
+/* Proses : Menulis ke layar */
+
+/*--------Konversi terhadap type jam---------*/
+int JamToDetik(Jam J);
+/* Konversi Jam ke Detik */
+
+int HaritoJam(Jam J);
+/* Konversi Jam ke Detik */
+
+
+Jam DetikToJam(int N);
+/* Konversi detik ke jam */
+
+#endif	
+
+===========================File mjam.c
+/* File : mjam.c */
+/* memanfaatkan primitif jam */
+#include "jam.h"
+#include "jam.c"
+
+int main()
+{/* KAMUS */
+	Jam J1; 
+	Jam J2;
+	int dt=3600;
+
+/* PROGRAM */
+	printf("=================================\n");
+	printf ("Konversi Jumlah Hari dan Waktu");
+	printf("\n=================================\n");
+	BacaJam (&J1);
+	printf("=================================\n");
+	TulisJam (J1);
+	printf("\n=================================\n");
+	printf("\nKonversi jam ke detik: %d", JamToDetik(J1));
+	printf(" detik\n");
+	printf("\n=================================\n");
+	printf("\nKonversi Hari ke Jam: %d", HariToJam(J1));
+	printf(" jam\n");
+	printf("\n=================================\n");
+	dt = JamToDetik(J1);
+	J2=DetikToJam(dt);
+	TulisHasil(J2);
+return 0;
+}
+
+
+ADT Indeks Nilai
+=====================File hnilai.c
+
+/* File HNilai.c */
+
+#include "nilai.h"
+#include "nilai.c"
+
+int main()
+{	
+	Nilai Ni;
+	Nilai In;
+	int Tn;
+	
+/* PROGRAM */
+	printf("=================================\n");
+	printf ("======Indeks Mata Kuliah X======="); /* File HNilai.c */
+
+#include "nilai.h"
+#include "nilai.c"
+
+int main()
+{
+	Nilai Ni;
+	Nilai In;
+	int Tn; 
+		
+/* PROGRAM */
+	printf("=================================\n");
+	printf ("======Indeks Mata Kuliah X=======");
+	printf("\n=================================\n");
+	BacaNilai(&Ni);
+	printf("\n=================================\n");
+	printf("KETERANGAN \n");
+	printf(" \n");
+	TulisNilai(Ni);
+	printf(" \n");
+	printf("\nTotal Nilai : %d\n", TotalNilai(Ni));
+	printf("\n=================================\n");
+	Tn = TotalNilai(Ni);
+	In= IndeksNilai(Tn);
+	printf("\n=================================\n");
+return 0;
+}
+	printf("\n=================================\n");
+	BacaNilai(&Ni);
+	printf("\n=================================\n");
+	printf("KETERANGAN \n");
+	printf(" \n");
+	TulisNilai(Ni);
+	printf(" \n");
+	printf("\nTotal Nilai : %d\n", TotalNilai(Ni));
+	printf("\n=================================\n");
+	Tn = TotalNilai(Ni);
+	In= IndeksNilai(Tn);
+	printf("\n=================================\n");
+return 0;
+} 
+
+============================File nilai.c
+/* File : Nilai.c */
+
+#include "nilai.h"
+Nilai MakeNilai(int K, int T, int Q, int U, int S)
+
+{
+	Nilai Ni;
+	
+	Kehadiran(Ni) = K;
+	Tugas(Ni) = T;
+	Quiz(Ni) = Q;
+	UTS(Ni) = U;
+	UAS(Ni) = S;
+	return Ni;
+}
+
+boolean IsValid(int K, int T, int Q, int U, int S)
+{
+	return ((K >= 1 && K <= 14) && 
+	(T >= 0 && T <= 100) &&
+	(Q >= 0 && Q <= 100) &&
+	(U >= 0 && U <= 100) &&
+	(S >= 0 && S <= 100));
+}
+
+void TulisNilai(Nilai N)
+
+{
+	printf("Total Kehadiran = %d",Kehadiran(N));
+	printf(" \n");
+	printf("Nilai Tugas = %d",Tugas(N));
+	printf(" \n");
+	printf("Nilai Quiz = %d",Quiz(N));
+	printf(" \n");
+	printf("Nilai UTS = %d",UTS(N));
+	printf(" \n");
+	printf("Nilai UAS = %d",UAS(N));
+}
+
+void BacaNilai(Nilai *N)
+{
+	int K, T, Q, U, S;
+	do {
+		printf("Masukkan Total Kehadiran : "); scanf("%d",&K);
+		printf("Masukkan Nilai Tugas : "); scanf("%d",&T);
+		printf("Masukkan Nilai Quiz : "); scanf("%d",&Q);
+		printf("Masukkan Nilai UTS : "); scanf("%d",&U);
+		printf("Masukkan Nilai UAS : "); scanf("%d",&S);	
+	}while(!IsValid(K,T,Q,U,S));
+	*N = MakeNilai(K,T,Q,U,S);
+}
+
+int TotalNilai(Nilai N)
+{
+	return (Kehadiran(N)*5/7 + Tugas(N) * 0.2 + Quiz(N) * 0.15 + UTS(N) * 0.25 + UAS(N) * 0.3);
+}
+
+Nilai IndeksNilai(int Nilai){
+	if (Nilai >= 0 && Nilai <= 20) {
+		printf("Indeks Prestasi : E");
+	}
+	else if(Nilai >= 21 && Nilai <= 40){
+		printf("Indeks Prestasi : D");
+	}
+	else if(Nilai >= 41 && Nilai <= 60){
+		printf("Indeks Prestasi : C");
+	}
+	else if(Nilai >= 61 && Nilai <= 80){
+		printf("Indeks Prestasi : B");
+	}
+	else if(Nilai >= 81 && Nilai <= 100){
+		printf("Indeks Prestasi : A");
+	}
+}
+
+
+==========================File nilai.h
+/* File : Nilai.h */
+
+#ifndef nilai_H
+#define nilai_H
+#include "boolean.h"
+#include "stdio.h"
+
+#define Kehadiran(N) (N).KK
+#define Tugas(N) (N).TT
+#define Quiz(N) (N).QQ
+#define UTS(N) (N).UU
+#define UAS(N) (N).SS
+
+typedef struct
+{
+	int KK;
+	int TT;
+	int QQ;
+	int UU;
+	int SS;
+} Nilai;
+
+Nilai MakeNilai(int K, int T, int Q, int U, int S);
+
+boolean IsValid(int K, int T, int Q, int U, int S);
+
+void TulisNilai(Nilai N);
+
+void BacaNilai(Nilai *N);
+ 
+int TotalNilai(Nilai N);
+
+Nilai IndeksNilai(int Nilai);
+
+#endif
+
+============================	File boolean.h
+/* File: boolean.h */
+/* Definisi type data boolean */
+#ifndef BOOLEAN_H
+#define BOOLEAN_H
+#define boolean unsigned char
+#define true 1
+#define false 0
+#endif
